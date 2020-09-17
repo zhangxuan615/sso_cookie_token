@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>欢迎来到 sso 登陆页面</title>
+</head>
+
+<body>
+
+  <form id='formId' action='/ssoLogin' method="POST">
+    用户名：<input type="text" name='username' autofocus>
+    密码：<input type="password" name='password'>
+  </form>
+  <button onclick="handleSubmit()">点击sso登陆</button>
+
+  <script>
+
+
+    function handleSubmit() {
+
+      const formEle = document.getElementById('formId');
+      const username = formEle.elements['username'].value;
+      const password = formEle.elements['password'].value;
+
+      // 发送异步请求
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            // 说明校验成功
+            if (xhr.getResponseHeader('content-type').includes('application/json')) {
+              const res = JSON.parse(xhr.responseText);
+              const { code, target } = res;
+              if (code === 200) {
+                window.location.href = target;
+              } else {
+                window.alert('用户名或者密码错误');
+              }
+            } else {
+              window.alert('返回数据格式不正确');
+            }
+          } else {
+            window.alert('服务器处理错误！');
+          }
+        };
+      }
+      xhr.open("post", "/ssoLogin");
+      xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+      xhr.send(JSON.stringify({ username, password }));
+    }
+
+
+  </script>
+
+</body>
+
+</html>

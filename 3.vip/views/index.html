@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>main page</title>
+</head>
+
+<body>
+  <h1>Vip Page</h1>
+  {{ if username }}
+    <p>当前登陆用户：{{ username }}</p>
+    <a href="http://login.sso.com:3000/ssoLoginOut?target=http://vip.sso.com:3002">退出登陆</a>
+  {{ else }}
+    <a href="http://login.sso.com:3000?target=http://vip.sso.com:3002">登陆</a>
+  {{ /if }}
+</body>
+
+</html>
